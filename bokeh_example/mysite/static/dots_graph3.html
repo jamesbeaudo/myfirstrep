@@ -1,0 +1,126 @@
+<DOCTYPE! html>
+<head>
+
+
+<style>
+canvas.dots {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.team_specs{
+    width: 100vw;
+    height:100px;
+}
+
+
+</style>
+</head>
+
+<body>
+<div class="container">
+    
+    <div class="team_specs"> 
+        <canvas class="dots">Your browser does not support canvas.</canvas>
+    </div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+var canvas = $('canvas.dots');
+var context = canvas[0].getContext('2d');
+var canvasWidth = canvas.width();
+var canvasHeight = canvas.height();
+canvas.attr({height: canvasHeight, width: canvasWidth});
+
+// Set an array of dot objects.
+
+myDir= ['+','-'];
+ 
+var dots=[];
+
+
+for(var i=0;i<99;i++){
+
+   dots[i] = {
+   x: Math.floor(Math.random() * Math.floor(400)),
+   y: Math.floor(Math.random() * Math.floor(400)),
+   radius:9,
+   xMove: myDir[Math.floor(Math.random() * myDir.length)],
+   yMove: myDir[Math.floor(Math.random() * myDir.length)]
+   };
+}
+
+
+// Notice in the moveDot function we can make dots go faster if we increment
+// by more than 1 pixel each time.
+var frameLength = 2;
+
+// Draw each dot in the dots array.
+for( i = 0; i < dots.length; i++ ) {
+  drawDot(dots[i]);
+};
+
+setTimeout(function(){
+  window.requestAnimationFrame(moveDot);
+}, 2500);
+
+
+function moveDot() {
+  context.clearRect(0, 0, canvasWidth, canvasHeight)
+
+  // Iterate over all the dots.
+  for( i = 0; i < dots.length; i++ ) {
+
+    if( dots[i].xMove == '+' ) {
+      dots[i].x += frameLength;
+    } else {
+      dots[i].x -= frameLength;
+    }
+    if( dots[i].yMove == '+' ) {
+      dots[i].y += frameLength;
+    } else {
+      dots[i].y -= frameLength;
+    }
+
+    drawDot(dots[i])
+
+    if( (dots[i].x + dots[i].radius) >= canvasWidth ) {
+      dots[i].xMove = '-';
+    }
+    if( (dots[i].x - dots[i].radius) <= 0 ) {
+      dots[i].xMove = '+';
+    }
+    if( (dots[i].y + dots[i].radius) >= canvasHeight ) {
+      dots[i].yMove = '-';
+    }
+    if( (dots[i].y - dots[i].radius) <= 0 ) {
+      dots[i].yMove = '+';
+    }
+  }
+
+  // Render it again
+  window.requestAnimationFrame(moveDot);
+}
+
+function drawDot(dot) {
+  context.beginPath();
+  context.arc(dot.x, dot.y, dot.radius, 0, 2 * Math.PI, false);
+  context.fillStyle = '#f1c83c';
+  context.fill();
+}
+
+</script>
+
+
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,368 @@
+{% extends "pages/base.html" %}
+
+{% block content %}
+<head>
+    {% load static %}
+    
+
+
+            
+    <!-- bokeh css -->
+    <link href="https://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.pydata.org/bokeh/release/bokeh-widgets-0.13.0.min.css" rel="stylesheet" type="text/css">
+
+     <!-- bokeh js -->       
+    <script src="https://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.js"></script>
+    <script src="https://cdn.pydata.org/bokeh/release/bokeh-widgets-0.13.0.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Space+Mono&display=swap" rel="stylesheet">
+
+<style>
+
+
+body{
+    font-family: 'Space Mono', monospace;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  text-align:right;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.desc {
+  padding: 12px;
+  text-align: center;
+}
+
+#preview_gallery{
+    margin-left:70px;
+}
+
+.graph_show{
+    text-align:center;
+    margin-top:50px;
+
+}
+
+.subtitle{
+    font-family: 'Space Mono', monospace;
+    color:#2b2c34;
+}
+
+.content{
+    color:#2b2c34;
+    margin-bottom:21px;
+    background-color:#d1d1e9;
+}
+
+.content h5{
+    font-family: 'Space Mono', monospace;
+    color:#e45858;
+    font-weight:100;
+    text-align:center;
+}
+
+.content p{
+    font-family: 'Space Mono', monospace;
+    color:#2b2c34;
+}
+
+.visibility{
+    display:none;
+    margin-left:200px; 
+    margin-top:54px; 
+    float:left;
+    font-family: 'Space Mono', monospace;
+}
+
+.visibility-show{
+    display:block;
+    margin-left:200px; 
+    margin-top:54px; 
+    float:left;
+    font-family: 'Space Mono', monospace;
+}
+
+p i{
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  text-align:center;
+}
+
+.right {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+.td-content{
+    border: 0;
+    text-align:center;
+}
+.td-arrow{
+    width:70px;
+    border: 0;
+    text-align:center;
+}
+.td-first{
+    width:160px;
+}
+
+p{
+    width:270px;
+    font-size:13px;
+    text-align:left;
+}
+
+
+</style>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+
+      
+</head>
+
+<div class="w3-sidebar w3-bar-block w3-light-grey w3-card" style="width:15%; margin-top:52px; font-family: 'Space Mono', monospace; text-align:right;">
+  <a rel="learnmore" class="w3-bar-item w3-button" style="margin-top:20px; margin-bottom:60px;">Learn More</a> 
+
+  <div class="w3-dropdown-hover" style="margin-top:30px; margin-bottom:20px;">
+    <button class="w3-button">Comparaison
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="w3-dropdown-content w3-bar-block">
+      <a rel="hexbinmapv1" class="w3-bar-item w3-button">Hexbin Map</a>
+      <a rel="histogram" class="w3-bar-item w3-button">Histogram</a>
+      <a rel="linechart" class="w3-bar-item w3-button">Line Chart</a>
+      <a rel="barchart" class="w3-bar-item w3-button">Bar Chart</a>
+    </div>
+  </div>
+  <div class="w3-dropdown-hover" style="margin-top:20px; margin-bottom:20px;">
+    <button class="w3-button">Distribution
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="w3-dropdown-content w3-bar-block">
+      <a rel="heatmap" class="w3-bar-item w3-button">Heatmap</a>
+      <a rel="hexbinmapv2" class="w3-bar-item w3-button">Hexbin Map</a>
+      <a rel="selection" class="w3-bar-item w3-button">Selection</a>
+    </div>
+  </div>
+  <div class="w3-dropdown-hover" style="margin-top:20px; margin-bottom:120px;">
+    <button class="w3-button">Relationship
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="w3-dropdown-content w3-bar-block">
+      <a rel="scatter" class="w3-bar-item w3-button">Scatter Chart</a>
+      <a rel="periodic" class="w3-bar-item w3-button">Periodic.py</a>
+    </div>
+  </div> 
+  <a href="#" class="w3-bar-item w3-button" style="margin-top:0px; margin-bottom:20px;">Export to CSV</a> 
+</div>
+
+    <div id="data-content">
+        <div class="main">
+            <div class="visibility-show" id="learnmore">
+                <div class="container">
+                    <div class="lg-9">
+                        <strong><h2 class="subtitle">Resources</h2></strong>
+                        <div id="links">
+                            <em><a href="#" style="color:#e45858; margin-right:30px;">email template</a></em>
+                            <em><a href="#" style="color:#e45858;">ppt template</a></em>
+                        </div>
+                        <div class="content" style="margin-top:40px;">
+                            <h5>Metrics used by Self-Assesment</h5>
+                                 <table width="468" cellspacing="0" cellpadding="0" border="0" style="width: 468px; height: 201px; margin-left:30px;">
+                                    <tbody>
+                                        <tr>
+
+
+                                            <td class="td-content">
+                                                <p> ? Ability to manage stress  </p>
+                                            </td>
+                                            <td class="td-arrow">
+                                                <p style="width:50px; text-align:center;">   <i class="arrow right"></i>   </p>
+                                            </td>
+                                            <td class="td-content">
+                                                <p>  1. Self-Management  </p>
+                                            </td>
+                                            <td class="td-arrow">
+                                                <p style="width:50px; text-align:center;">   <i class="arrow right"></i>   </p>
+                                            </td>
+                                            <td class="td-content">
+                                                <p> + Performance </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+
+                                            <td class="td-content">
+                                                <p> ? Ability to recognize biases </p>
+                                            </td>
+                                            <td class="td-arrow">
+                                                <p style="width:50px; text-align:center;">   <i class="arrow right"></i>   </p>
+                                            </td>
+                                            <td class="td-content">
+                                                <p>  2. Self-Awareness </p>
+                                            </td>
+                                            <td class="td-arrow">
+                                                <p style="width:50px; text-align:center;">   <i class="arrow right"></i>   </p>
+                                            </td>
+                                            <td class="td-content">
+                                                <p> + Physical health </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+
+                                            <td class="td-content">
+                                                <p>  ? Ability to connect with others  </p>
+                                            </td>
+                                            <td class="td-arrow">
+                                                <p style="width:50px; text-align:center;">   <i class="arrow right"></i>   </p>
+                                            </td>
+                                            <td class="td-content">
+                                                <p>  3. Social Awareness</p>
+                                            </td>
+                                            <td class="td-arrow">
+                                                <p style="width:50px; text-align:center;">   <i class="arrow right"></i>   </p>
+                                            </td>
+                                            <td class="td-content">
+                                                <p> + Mental Health</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+
+                                            <td class="td-content">
+                                                <p> ? Ability to build trust </p>
+                                            </td>
+                                            <td class="td-arrow">
+                                                <p style="width:50px; text-align:center;">   <i class="arrow right"></i>   </p>
+                                            </td>
+                                            <td class="td-content">
+                                                <p>  4. Relationship Management</p>
+                                            </td>
+                                            <td class="td-arrow">
+                                                <p style="width:50px; text-align:center;">   <i class="arrow right"></i>   </p>
+                                            </td>
+                                            <td class="td-content">
+                                                <p> + Relationship </p>
+                                            </td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                        </div>
+                        <div class="content">
+                            <h5>How to use the data?</h5>
+                            <p style="width:90%; text-align:justify;">Transparency is a great tool to truly understand the ins-and-outs of your industry; at the 
+                            condition of respecting employee privacy. It's why we provide an anonymous way to users to express themselves, and learn more
+                            about their surroundings. Here are <u>three suggestions</u> on how to maximize team learning:</p>
+                            <ol style="font-size:14px;">
+                                <li>Send an annual email <strong>giving an overview</strong> of how the people making up this organization like to work, alongside
+                                resources for self-development.</li>
+                                <li><strong>Use it as constructive criticism</strong>, or a way to encourage self-development. Ask the parties involved to come up with a personal
+                                 goal to achieve.</li>
+                                <li><strong>Use it as a benchmark</strong> for future reference; alongside employee satisfaction, it can help you, as a whole organization, keep
+                                 track of everyone, and making sure their voice is heard.</li>
+                            </ol>
+                        </div>
+                        <div class="content">
+                            <h5>How to properly use this tool, and its use</h5>
+                            <p style="width:90%; text-align:justify;">IQ and EI coexist together; success can both come from intellectual ability and problem solving (IQ) and stress management, 
+                            alongside the relationships built (EQ). IQ, specially when it comes to critical thinking and decision-making can heavily benefit 
+                            from feedback, and this project looks to mirror yourself, and not be biased to only see the 'good'.</p>
+                        </div>
+                        <div class="content">
+                            <h5>Understanding yourself</h5>
+                            <p>Lorem 4</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="hexbinmapv1" class="visibility">
+                <em><h2 style=" font-family: 'Space Mono', monospace; margin-bottom:40px;"></h2></em>
+                <div>
+                {{ script2 | safe }}
+                {{ div2 | safe }}
+                </div>
+            </div>
+
+            <div class="visibility" id="histogram">
+                <em><h2 style=" font-family: 'Space Mono', monospace; margin-bottom:40px;"></h2></em>
+                    <div>
+                    {{ script4 | safe }}
+                    {{ div4 | safe }}
+                    </div>
+            </div>
+
+            <div class="visibility" id="linechart">
+                <em><h2 style=" font-family: 'Space Mono', monospace; margin-bottom:40px;"></h2></em>
+                    <div>
+                    {{ script5 | safe }}
+                    {{ div5 | safe }}
+                    </div>
+            </div>
+
+            <div class="visibility" id="barchart">
+                <em><h2 style=" font-family: 'Space Mono', monospace; margin-bottom:40px;"></h2></em>
+
+            </div>
+
+            <div class="visibility" id="heatmap">
+                <em><h2 style=" font-family: 'Space Mono', monospace; margin-bottom:40px;"></h2></em>
+                    <div>
+                    {{ script1 | safe }}
+                    {{ div1 | safe }}
+                    </div>
+            </div>
+
+            <div class="visibility" id="hexbinmapv2">
+                <em><h2 style=" font-family: 'Space Mono', monospace; margin-bottom:40px;"></h2></em>
+                    <div>
+                    {{ script3 | safe }}
+                    {{ div3 | safe }}
+                    </div>
+            </div>
+
+            <div class="visibility" id="selection">
+                <h1>Placeholder</h1>
+            </div>
+            
+            <div class="visibility" id="scatter">
+                <h1>Placeholder</h1>
+            </div>
+
+            <div class="visibility" id="periodic">
+                <h1>Placeholder</h1>
+            </div>
+
+            <div class="visibility" id="csv_export">
+                <h1>Placeholder</h1>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    
+    <script>
+    $('a').on('click', function(){
+       var target = $(this).attr('rel');
+       $("#"+target).show().siblings("div").hide();
+    });
+    </script>
+</body>
+{% endblock content %}

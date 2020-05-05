@@ -1,0 +1,61 @@
+{% extends "pages/base.html" %}
+
+{% block content %}
+<head>
+    <style>
+        #top,
+        #bottom {
+            position: fixed;
+            left: 0;
+            right: 0;
+            height: 50%;
+            text-align:center;
+        }
+        
+        #top {
+            top: 0;
+            background-color: #fafafa;
+            color: #333333;
+        }
+        #top h2{
+            margin-top:150px;
+        }
+        
+        #bottom {
+            bottom: 0;
+            background-color: #5f788a;
+            color:#ffffff;
+        }
+        #bottom h2{
+            color:#ffffff;
+            margin-top:95px;
+            margin-bottom:10px;
+        }
+        #bottom a{
+        color: #cbd5db;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="top">
+    <h2>Visualize Now</h2>
+    <button onclick="location.href = 'http://localhost:8000/mydata'">Continue</button>
+    </div>
+    
+    <div id="bottom">
+        <h2>Upload More</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="document">
+            <button type="submit">Upload file</button>
+        </form>
+        {% if url %}
+        <p>Uploaded file: <a href="{{ url }}">{{ url }}</a></p>
+        {% endif %}    
+    </div>    
+    
+
+
+</body>
+{% endblock %}

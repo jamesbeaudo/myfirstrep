@@ -1,0 +1,71 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: baseline;
+}
+
+
+body {
+  overflow-x: hidden;
+  font-family: 'Roboto', sans-serif;
+  color:#505962;
+  text-align:center;
+   margin: 0;
+   padding:0;
+}
+
+.video-background{
+    position:relative;
+    width:100%;
+    min-height:100vh;
+    background-color: rgba(0,0,0,0.2);
+}
+
+.caption{
+    position:absolute;
+    top:38%;
+    width:100%;
+    color:white;
+}
+
+.caption h1{
+    font-size:3rem;
+    font-weight:700;
+    letter-spacing:.2rem;
+    text-shadow:.1rem .1rem .8rem black;
+    padding-botom:1rem;
+}
+
+.caption h3{
+    font-size:2rem;
+    text-shadow:.1rem .1rem .5rem black;
+}
+
+.navbar{
+    background: rgba(0,0,0,0.6);
+}
+
+.btn-lg{
+    border-width:medium;
+    border-radius:0;
+    font-size:1.1rem;
+    padding:.6rem 1.3rem;
+}
+
+
+#myVideo {
+position:absolute;
+    z-index:-1;
+    top:0;
+    left:0;
+    width:100vw; 
+    height:100vh;
+    top: 50%; left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width:auto;
+    height:auto;
+    transform: translate(-50%,-50%);
+}
+

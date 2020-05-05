@@ -1,0 +1,457 @@
+{% extends "pages/base.html" %}
+
+
+{% block content %}
+
+<head>
+    {% load static %}
+    
+    <title>Home - chem</title>
+    
+    
+    <link href="https://fonts.googleapis.com/css?family=Space+Mono&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/d7bc0dc5be.js" crossorigin="anonymous"></script>
+<style>
+.container-check {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container-check input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.container-check:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container-check input:checked ~ .checkmark {
+  background-color: #e45858;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container-check input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container-check .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+#dashboard{
+    background-color:#d1d1e9;
+    width:900px;
+    height:425px;
+    margin-left:100px;
+    margin-top:35px;
+    border-radius: 25px;
+}
+
+.dropbtn {
+  background-color: Transparent;
+  color: #2b2c34;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  outline:none;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  margin-left:0;
+}
+
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  right: 0;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown a:hover {background-color: #ddd;}
+
+.show {display: block;}
+
+.title-content{
+    margin-left:30px;
+}
+
+.anchor-icon{
+    margin-left:0px;
+      opacity: 0.6;
+      transition: 0.4s;
+}
+.anchor-icon:hover{opacity: 1}
+
+
+.visibility{
+    display:none;
+    float:left;
+    font-family: 'Space Mono', monospace;
+    margin-left:40px;
+    margin-top:40px;
+}
+
+.visibility-show{
+    display:block;
+    float:left;
+    font-family: 'Space Mono', monospace;
+    margin-left:40px;
+    margin-top:40px;
+}
+
+
+a.active {
+  color: #e45858;
+  opacity:1;
+}
+a:not([href]):not([tabindex]){
+  color: #727277;
+  font-size:20px;
+  border-bottom: 2px solid #727277;
+}
+
+a:not([href]):not([tabindex]).active{
+  color: #2B2C34;
+  font-size:20px;
+  border-bottom: 3px solid #2B2C34;
+}
+a:hover{
+    cursor: pointer;
+}
+
+.dashboard-title{
+margin-left:40px;
+}
+
+.buttons-team{
+    float:right;
+    margin-right:40px;
+    margin-top:15px;
+}
+
+#createbtn{
+    background-color:#fffffe;
+    font-size:14px;
+    width:90px;
+    border:None;
+    color:#2b2c34;
+}
+#joinbtn{
+    background-color:#fffffe;
+    font-size:14px;
+    width:90px;
+    border:None;
+    color:#2b2c34;
+}
+
+.open-button {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  right: 28px;
+  width: 280px;
+}
+
+/* The popup form - hidden by default */
+.form-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+
+/* Add styles to the form container */
+.form-container {
+  max-width: 300px;
+  padding: 10px;
+  background-color: white;
+}
+
+/* Full-width input fields */
+.form-container input[type=text], .form-container input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+}
+
+/* When the inputs get focus, do something */
+.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: red;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+
+
+.btn-team{
+    background-color:#6246ea;
+    border:None;
+    color:#fffffe;
+    font-size:20px;
+}
+.btn-cancel{
+    background-color:#727277;
+    border:None;
+    color:#fffffe;
+    font-size:20px;
+}
+
+#False{
+    color:#2b2c34;
+}
+
+#False i{
+    color:#e45858;
+}
+
+#True{
+    color:#727277;
+    text-decoration:line-through;
+}
+
+#True i{
+    display:None;
+}
+</style>
+    
+    
+</head>
+
+<body>
+
+    <div id="dashboard">
+        <div class="user-header">
+            <img class="rounded-circle account-img" style="height:50px; width:50px; margin-top:10px; margin-left:40px; margin-right:0;" src="{{ user.profile.image.url }}">
+            <div class="dropdown">
+              <button onclick="myFunction()" class="dropbtn">{{ user.username }} <i class="fa fa-caret-down"></i></button>
+                  <div id="myDropdown" class="dropdown-content">
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                  </div>
+            </div>
+            <div class="buttons-team">
+                <a href="/newteam"><button class="btn btn-primary" id="createbtn" action="/jointeam"><i class="fas fa-plus"></i> Create</button></a>                   
+                    
+                <button class="btn btn-primary" id="joinbtn" onclick="openjoinForm()"><i class="fas fa-plus"></i> Join</button>
+                    <div class="form-popup" id="joinForm">
+                      <form method="POST" class="form-container">{% csrf_token %}
+                        <h3 style="margin-bottom:20px;">Join a Team</h3>
+                    
+                        <label for="teamname"><b>Team Name</b></label>
+                        {{form.team_name}}
+                    
+                        <label for="psw"><b>Team Key</b></label>
+                        {{form.team_k}}
+                    
+                        <input type="submit" value="Submit"></input>
+                        <button type="button" class="btn-cancel" onclick="closejoinForm()">Close</button>
+                      </form>
+                    </div>
+            </div>
+        </div>
+            <div class="dashboard-title">
+                <div style="margin-left:0; margin-right:259px; border-bottom: 2px solid #727277;">
+                    <a rel="updates" class="anchor-icon active"><i class="fas fa-question-circle" style="margin-right:5px;"></i>Updates</a>
+                    <span style="margin-left:30px;"></span>
+                    <a rel="data" class="anchor-icon"><i class="fas fa-chart-pie" style="margin-right:5px;"></i>Data</a>
+                    <span style="margin-left:30px;"></span>
+                    <a rel="goals" class="anchor-icon"><i class="fas fa-bullseye" style="margin-right:5px;"></i>Goals</a>
+                    <span style="margin-left:30px;"></span>
+                    <a rel="tests" class="anchor-icon"><i class="fas fa-pencil-alt" style="margin-right:5px;"></i>Tests</a>
+                    <span style="margin-left:30px;"></span>
+                    <a rel="story" class="anchor-icon"><i class="fas fa-book" style="margin-right:5px;"></i>Story</a>
+                </div>
+            </div>
+                <div class="content">
+                
+                    <div class="visibility-show" id="updates">
+                        <strong><h5>Welcome to v1.0!  <span style="font-size:9px;">updated 4/12/20</span></h5></strong>
+                        <p>Complete tasks in each category to be able to benefit the most of this fun little project. - J</p>
+                    </div>
+                    <div class="visibility" id="data">
+                        <h7>Complete these tasks: </h7>
+                            <div style="float:right; margin-top:25px;">
+                                <label class="container-check" id={{d_upload}}><i class="fas fa-exclamation"></i>  Upload one test result </label>
+                                <label class="container-check" id={{d_access}}><i class="fas fa-exclamation"></i>  Access your data visualizations </label>
+                                <label class="container-check" id={{d_email}}><i class="fas fa-exclamation"></i>  Prepare an email </label>
+                            </div>
+                    </div>
+                    <div class="visibility" id="goals">
+                        <h7>Complete these tasks: </h7>
+                            <div style="float:right; margin-top:25px;">
+                                <label class="container-check" id={{g_daily}}><i class="fas fa-exclamation"></i>  Complete a daily check </label>
+                                <label class="container-check" id={{g_pref}}><i class="fas fa-exclamation"></i>  Set up preferences </label>
+                                <label class="container-check" id={{g_goal}}><i class="fas fa-exclamation"></i>  Set up a goal </label>
+                            </div>
+                    </div>
+                    <div class="visibility" id="tests">
+                        <h7>Complete these tasks: </h7>
+                            <div style="float:right; margin-top:25px;">
+                                <label class="container-check" id={{d_upload}}><i class="fas fa-exclamation"></i>  Upload one test result </label>
+                                <label class="container-check" id={{t_test}}><i class="fas fa-exclamation"></i>  Make a follow-up test </label>
+                                <label class="container-check" id={{t_imp}}><i class="fas fa-exclamation"></i>  Self-Improve </label>
+                            </div>
+                    </div>
+                    <div class="visibility" id="story">
+                        <h7>coming soon </h7>
+
+                    </div>  
+                
+                </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+<script>
+
+$('a').on('click', function(){
+   var target = $(this).attr('rel');
+   $("#"+target).show().siblings("div").hide();
+});
+
+$(function() {
+  $("a").click(function() {
+    // remove classes from all
+    $("a").removeClass("active");
+    // add class to the one we clicked
+    $(this).addClass("active");
+  });
+});
+
+</script>    
+                
+            
+            
+<script>
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}    
+</script>
+
+<script>
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+</script>
+
+<script>
+function openjoinForm() {
+  document.getElementById("joinForm").style.display = "block";
+}
+
+function closejoinForm() {
+  document.getElementById("joinForm").style.display = "none";
+}
+</script>
+
+</body>
+{% endblock content %}
